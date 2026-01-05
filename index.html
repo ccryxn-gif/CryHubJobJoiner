@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,30 +56,45 @@
             color: #e74c3c;
             font-weight: bold;
         }
+        .discord-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #5865F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .discord-btn:hover {
+            background: #4752C4;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🎮 Roblox Game Joiner</h1>
         <div class="spinner"></div>
-        <div class="status" id="status">Verbinde zum Server...</div>
+        <div class="status" id="status">Connecting to server...</div>
         <div class="info">
             <strong>Place ID:</strong> <span id="placeid">-</span><br>
             <strong>Game Instance ID:</strong> <span id="gameinstanceid">-</span>
         </div>
+        <a href="https://discord.gg/cryhubb" target="_blank" class="discord-btn">💬 Join our Discord</a>
     </div>
 
     <script>
-        // URL Parameter auslesen
+        // Read URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const placeId = urlParams.get('placeid');
         const gameInstanceId = urlParams.get('gameinstanceid');
         
-        // Anzeigen der IDs
-        document.getElementById('placeid').textContent = placeId || 'Nicht angegeben';
-        document.getElementById('gameinstanceid').textContent = gameInstanceId || 'Nicht angegeben';
+        // Display the IDs
+        document.getElementById('placeid').textContent = placeId || 'Not specified';
+        document.getElementById('gameinstanceid').textContent = gameInstanceId || 'Not specified';
         
-        // Roblox Link erstellen und weiterleiten
+        // Create Roblox link and redirect
         if (placeId) {
             let robloxUrl = `roblox://placeId=${placeId}`;
             
@@ -87,19 +102,19 @@
                 robloxUrl += `&gameInstanceId=${gameInstanceId}`;
             }
             
-            document.getElementById('status').textContent = 'Öffne Roblox...';
+            document.getElementById('status').textContent = 'Opening Roblox...';
             
-            // Nach 1 Sekunde zu Roblox weiterleiten
+            // Redirect to Roblox after 1 second
             setTimeout(() => {
                 window.location.href = robloxUrl;
                 
-                // Fallback: Nach 3 Sekunden Statusmeldung ändern
+                // Fallback: Change status message after 3 seconds
                 setTimeout(() => {
-                    document.getElementById('status').textContent = 'Roblox sollte sich jetzt öffnen. Falls nicht, stelle sicher dass Roblox installiert ist.';
+                    document.getElementById('status').textContent = 'Roblox should open now. If not, make sure Roblox is installed.';
                 }, 3000);
             }, 1000);
         } else {
-            document.getElementById('status').innerHTML = '<span class="error">Fehler: Keine Place ID angegeben!</span>';
+            document.getElementById('status').innerHTML = '<span class="error">Error: No Place ID specified!</span>';
         }
     </script>
 </body>
