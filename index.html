@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Game Joiner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .status {
+            font-size: 18px;
+            color: #666;
+            margin: 20px 0;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Roblox Game Joiner</h1>
+        <div class="spinner"></div>
+        <div class="status" id="status">Verbinde zum Server...</div>
+        <div class="info">
+            <strong>Place ID:</strong> <span id="placeid">-</span><br>
+            <strong>Game Instance ID:</strong> <span id="gameinstanceid">-</span>
+        </div>
+    </div>
+
+    <script>
+        // URL Parameter auslesen
+        const urlParams = new URLSearchParams(window.location.search);
+        const placeId = urlParams.get('placeid');
+        const gameInstanceId = urlParams.get('gameinstanceid');
+        
+        // Anzeigen der IDs
+        document.getElementById('placeid').textContent = placeId || 'Nicht angegeben';
+        document.getElementById('gameinstanceid').textContent = gameInstanceId || 'Nicht angegeben';
+        
+        // Roblox Link erstellen und weiterleiten
+        if (placeId) {
+            let robloxUrl = `roblox://placeId=${placeId}`;
+            
+            if (gameInstanceId) {
+                robloxUrl += `&gameInstanceId=${gameInstanceId}`;
+            }
+            
+            document.getElementById('status').textContent = 'Öffne Roblox...';
+            
+            // Nach 1 Sekunde zu Roblox weiterleiten
+            setTimeout(() => {
+                window.location.href = robloxUrl;
+                
+                // Fallback: Nach 3 Sekunden Statusmeldung ändern
+                setTimeout(() => {
+                    document.getElementById('status').textContent = 'Roblox sollte sich jetzt öffnen. Falls nicht, stelle sicher dass Roblox installiert ist.';
+                }, 3000);
+            }, 1000);
+        } else {
+            document.getElementById('status').innerHTML = '<span class="error">Fehler: Keine Place ID angegeben!</span>';
+        }
+    </script>
+</body>
+</html>
