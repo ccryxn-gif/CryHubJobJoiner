@@ -95,23 +95,18 @@
         
         // Create Roblox link and redirect
         if (placeId) {
-            // Build the roblox:// protocol link for desktop player
-            let robloxUrl = `roblox://placeId=${placeId}`;
+            // Use the web launcher URL which maintains login session
+            let robloxUrl = `https://www.roblox.com/games/${placeId}`;
             
             if (gameInstanceId) {
-                robloxUrl += `&gameInstanceId=${gameInstanceId}`;
+                robloxUrl = `https://www.roblox.com/games/start?placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
             }
             
-            document.getElementById('status').textContent = 'Öffne Roblox Player...';
+            document.getElementById('status').textContent = 'Weiterleitung zu Roblox...';
             
-            // Try to launch Roblox Player
+            // Redirect to Roblox web page
             setTimeout(() => {
                 window.location.href = robloxUrl;
-                
-                // Update status after attempting to launch
-                setTimeout(() => {
-                    document.getElementById('status').textContent = 'Roblox Player sollte sich öffnen. Stelle sicher, dass du im Player angemeldet bist!';
-                }, 2000);
             }, 1000);
         } else {
             document.getElementById('status').innerHTML = '<span class="error">Error: No Place ID specified!</span>';
