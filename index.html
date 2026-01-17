@@ -93,19 +93,25 @@
         document.getElementById('placeid').textContent = placeId || 'Not specified';
         document.getElementById('gameinstanceid').textContent = gameInstanceId || 'Not specified';
         
-        // Create Roblox browser link and redirect
+        // Create Roblox link and redirect
         if (placeId) {
-            let robloxUrl = `https://www.roblox.com/games/start?placeId=${placeId}`;
+            // Build the roblox:// protocol link for desktop player
+            let robloxUrl = `roblox://placeId=${placeId}`;
             
             if (gameInstanceId) {
                 robloxUrl += `&gameInstanceId=${gameInstanceId}`;
             }
             
-            document.getElementById('status').textContent = 'Weiterleitung zu Roblox...';
+            document.getElementById('status').textContent = 'Öffne Roblox Player...';
             
-            // Redirect to Roblox browser version after 1 second
+            // Try to launch Roblox Player
             setTimeout(() => {
                 window.location.href = robloxUrl;
+                
+                // Update status after attempting to launch
+                setTimeout(() => {
+                    document.getElementById('status').textContent = 'Roblox Player sollte sich öffnen. Stelle sicher, dass du im Player angemeldet bist!';
+                }, 2000);
             }, 1000);
         } else {
             document.getElementById('status').innerHTML = '<span class="error">Error: No Place ID specified!</span>';
